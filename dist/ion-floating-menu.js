@@ -16,10 +16,10 @@
 
     angular.module('ion-floating-menu', [])
 
-            .directive('ionFloatingButton', ionFloatingButton)
-            .directive('ionFloatingMenu', ionFloatingMenu)
-            .directive('ionFloatingItem', ionFloatingItem)
-            .factory('$ionicBackdropIon', $ionicBackdropIon);
+        .directive('ionFloatingButton', ionFloatingButton)
+        .directive('ionFloatingMenu', ionFloatingMenu)
+        .directive('ionFloatingItem', ionFloatingItem)
+        .factory('$ionicBackdropIon', $ionicBackdropIon);
 
 
     function ionFloatingButton() {
@@ -35,12 +35,13 @@
                 isCentered: '=?',
                 text: '@?',
                 textClass: '@?',
-                bottom: '@?'},
+                bottom: '@?'
+            },
             template: '<ul ng-click="click(); $event.stopPropagation();" id="floating-button" ng-class="{\'center\': isCentered}" ng-style="{\'bottom\' : \'{{bottom}}\' }">' +
-                    '<li ng-class="buttonClass" ng-style="{\'background-color\': buttonColor }">' +
-                    '<a><span ng-if="text" class="label-container"><span class="label" ng-class="textClass" ng-bind="text"></span></span><i class="icon menu-icon" ng-class="{ \'{{icon}}\' : true}" ng-style="{\'color\': iconColor }"></i></a>' +
-                    '</li>' +
-                    '</ul>',
+                '<li ng-class="buttonClass" ng-style="{\'background-color\': buttonColor }">' +
+                '<a><span ng-if="text" class="label-container"><span class="label" ng-class="textClass" ng-bind="text"></span></span><i class="icon menu-icon" ng-class="{ \'{{icon}}\' : true}" ng-style="{\'color\': iconColor }"></i></a>' +
+                '</li>' +
+                '</ul>',
             replace: false,
             transclude: true,
             controller: ionFloatingButtonCtrl
@@ -80,13 +81,12 @@
                             ng-style="{\'bottom\' : \'{{bottom}}\'}" \n\
                             ng-class="{\'active\' : isOpen}" \n\
                             ng-click="open()">' +
-                    '<div ng-transclude></div>' +
-                    '<span><li class="menu-button icon menu-icon" ng-class="icon" ng-style="{\'background-color\' : buttonColor, \'color\': iconColor}"></li></span>' +
-                    '</ul>',
+                '<div ng-transclude></div>' +
+                '<span><li class="menu-button icon menu-icon" ng-class="icon" ng-style="{\'background-color\' : buttonColor, \'color\': iconColor}"></li></span>' +
+                '</ul>',
             replace: false,
             transclude: true,
-            link: function (scope, element, attrs, ctrl, transclude)
-            {
+            link: function (scope, element, attrs, ctrl, transclude) {
                 element.find('div').replaceWith(transclude());
             },
             controller: ionFloatingMenuCtrl
@@ -106,13 +106,14 @@
                 iconImagePath: '@?',
                 iconImageClass: '@?',
                 text: '@?',
-                textClass: '@?'},
+                textClass: '@?'
+            },
             template:
-                    '<li ng-click="click(); $event.stopPropagation();" ng-class="buttonClass" ng-style="{\'background-color\': buttonColor }">' +
-                    '<span ng-if="text" class="label-container"><span class="label" ng-class="textClass" ng-bind="text"></span></span>' +
-                    '<img ng-if="iconImagePath" class="menu-icon" ng-class="iconImageClass" ng-src="{{iconImagePath}}"/>' +
-                    '<i ng-if="!iconImagePath" class="icon menu-icon" ng-class="{ \'{{icon}}\' : true}" ng-style="{\'color\': iconColor }"></i>' +
-                    '</li>',
+                '<li ng-click="click(); $event.stopPropagation();" ng-class="buttonClass" ng-style="{\'background-color\': buttonColor }">' +
+                '<span ng-if="text" class="label-container"><span class="label" ng-class="textClass" ng-bind="text"></span></span>' +
+                '<img ng-if="iconImagePath" class="menu-icon" ng-class="iconImageClass" ng-src="{{iconImagePath}}"/>' +
+                '<i ng-if="!iconImagePath" class="icon menu-icon" ng-class="{ \'{{icon}}\' : true}" ng-style="{\'color\': iconColor }"></i>' +
+                '</li>',
             replace: false,
             controller: ionFloatingItemCtrl
         };
@@ -148,6 +149,11 @@
             }
             $rootScope.$broadcast('floating-menu:close');
         };
+
+        $rootScope.$on('floating-menu:close-all', function () {
+            $scope.isOpen = false;
+            $scope.setClose();
+        });
         var menuColor = $scope.menuColor || '#2AC9AA';
         var menuIcon = $scope.menuIcon || 'ion-plus';
         var menuIconColor = $scope.menuIconColor || '#fff';
